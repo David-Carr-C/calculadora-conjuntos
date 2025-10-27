@@ -187,10 +187,9 @@ export default function Page() {
   }
 
   const circles = {
-    // centro x, y, radio — SVG viewBox 0 0 600 420
     A: { cx: 220, cy: 180, r: 150 },
-    B: { cx: 300, cy: 300, r: 150 },
-    C: { cx: 380, cy: 180, r: 150 },
+    B: { cx: 380, cy: 180, r: 150 }, // ← B AHORA A LA DERECHA
+    C: { cx: 300, cy: 300, r: 150 }, // ← C AHORA ABAJO
   } as const;
 
   // Para pintar regiones usamos máscaras de SVG
@@ -214,8 +213,8 @@ export default function Page() {
 
               {/* Etiquetas */}
               <text x={circles.A.cx - 140} y={circles.A.cy - 60} className="fill-slate-200 text-[20px] font-semibold">A</text>
-              <text x={circles.B.cx - 10} y={circles.B.cy + 120} className="fill-slate-200 text-[20px] font-semibold">B</text>
-              <text x={circles.C.cx + 120} y={circles.C.cy - 60} className="fill-slate-200 text-[20px] font-semibold">C</text>
+              <text x={circles.B.cx + 120} y={circles.B.cy - 60} className="fill-slate-200 text-[20px] font-semibold">B</text> {/* derecha */}
+              <text x={circles.C.cx - 10}  y={circles.C.cy + 120} className="fill-slate-200 text-[20px] font-semibold">C</text> {/* abajo */}
 
               {/* Regiones mediante <clipPath> y <path> booleanas */}
               <defs>
@@ -300,14 +299,15 @@ export default function Page() {
                     return chunks;
                   };
                   const texts = [
-                    { x: 120, y: 170, items: buckets.onlyA },           // solo A
-                    { x: 300, y: 360, items: buckets.onlyB },           // solo B
-                    { x: 480, y: 170, items: buckets.onlyC },           // solo C
-                    { x: 190, y: 240, items: buckets.AandB },           // A∩B sin C
-                    { x: 290, y: 120, items: buckets.AandC },           // A∩C sin B
-                    { x: 390, y: 240, items: buckets.BandC },           // B∩C sin A
-                    { x: 300, y: 200, items: buckets.AandBandC },       // triple
+                    { x: 120, y: 170, items: buckets.onlyA },           // solo A (igual)
+                    { x: 480, y: 170, items: buckets.onlyB },           // B → derecha (antes estaba en abajo)
+                    { x: 300, y: 360, items: buckets.onlyC },           // C → abajo (antes estaba a la derecha)
+                    { x: 290, y: 120, items: buckets.AandB },           // A∩B ahora es A con B a la derecha (antes A∩C)
+                    { x: 190, y: 240, items: buckets.AandC },           // A∩C ahora es A con C abajo (antes A∩B)
+                    { x: 390, y: 240, items: buckets.BandC },           // B∩C (derecha∩abajo) se mantiene bien en esta zona
+                    { x: 300, y: 200, items: buckets.AandBandC },       // triple (igual)
                   ];
+
                   return texts.map((t, i) => (
                     <text key={i} x={t.x} y={t.y} className="text-[12px]">
                       {lines(t.items).map((ln, j) => (
@@ -410,7 +410,9 @@ export default function Page() {
       </div>
 
       <footer className="max-w-6xl mx-auto mt-8 text-sm text-slate-400">
-        Basado en SVG + Tailwind. Edita U, A, B, C; observa los segmentos y valida De Morgan.
+        David Carrillo Castillo 202064212
+        <br />
+        Samanta Reyes Tlapanco 202074145
       </footer>
     </main>
   );
