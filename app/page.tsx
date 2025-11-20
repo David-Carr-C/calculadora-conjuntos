@@ -627,7 +627,7 @@ export default function Page() {
   const [M_a, setM_a] = useState("7");    // a
   const [M_b, setM_b] = useState("5");    // b
   const [M_k, setM_k] = useState("13");   // exponente para a^k (mod n)
-  const [showTables, setShowTables] = useState(false);
+  const [showTables, setShowTables] = useState(true);
 
   const nVal = useMemo(() => Math.max(1, toInt(M_n)), [M_n]);
   const aVal = useMemo(() => toInt(M_a), [M_a]);
@@ -1321,7 +1321,6 @@ export default function Page() {
             <div className="grid grid-cols-1 gap-4">
               <TextArea label="a" value={M_a} setValue={setM_a} />
               <TextArea label="b" value={M_b} setValue={setM_b} />
-              <TextArea label="k (exponente para a^k)" value={M_k} setValue={setM_k} />
             </div>
           </div>
 
@@ -1333,11 +1332,10 @@ export default function Page() {
                 <li><span className="font-mono">a + b ≡ {modAdd} (mod {nVal})</span></li>
                 <li><span className="font-mono">a − b ≡ {modSub} (mod {nVal})</span></li>
                 <li><span className="font-mono">a · b ≡ {modMul} (mod {nVal})</span></li>
-                <li><span className="font-mono">a^{kVal} ≡ {modPow} (mod {nVal})</span></li>
               </ul>
             </div>
 
-            <div className="rounded-xl border border-slate-700 bg-slate-900/50 p-3 text-sm">
+            {/* <div className="rounded-xl border border-slate-700 bg-slate-900/50 p-3 text-sm">
               <h3 className="text-lg font-semibold mb-2">Inverso y mcd</h3>
               <p className="text-slate-200">
                 <span className="font-mono">gcd(a, n) = {gcd_a_n}</span>
@@ -1350,7 +1348,7 @@ export default function Page() {
                   <span className="font-mono">a⁻¹ ≡ {inv_a_n} (mod {nVal})</span>
                 )}
               </p>
-            </div>
+            </div> */}
           </div>
 
           {/* Congruencia lineal */}
